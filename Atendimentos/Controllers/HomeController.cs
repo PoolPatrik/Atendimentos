@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Atendimentos.Models;
 using Atendimentos.Models.ViewModels;
 
+
 namespace Atendimentos.Controllers
 {
     public class HomeController : Controller

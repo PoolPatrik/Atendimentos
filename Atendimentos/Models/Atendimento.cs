@@ -18,6 +18,10 @@ namespace Atendimentos.Models
         public Revendedor Revendedor { get; set; }
         public Sistema Sistema { get; set; }
 
+        public Atendimento()
+        {
+
+        }
         public Atendimento(string descrição, string solucao, DateTime data, DateTime horaInicio, DateTime horaFim, string ticket, Usuario usuario, Revendedor revendedor, Sistema sistema)
         {
             Descrição = descrição;
@@ -30,5 +34,7 @@ namespace Atendimentos.Models
             Revendedor = revendedor;
             Sistema = sistema;
         }
+
+
     }
 }
