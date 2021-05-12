@@ -9,13 +9,15 @@ namespace Atendimentos.Data
 {
     public class AtendimentosContext : DbContext
     {
-        public AtendimentosContext (DbContextOptions<AtendimentosContext> options)
+        public AtendimentosContext(DbContextOptions<AtendimentosContext> options)
             : base(options)
         {
         }
 
         public DbSet<Atendimento> Atendimento { get; set; }
         public DbSet<Sistema> Sistema { get; set; }
+        public DbSet<Revendedor> Revendedor { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
 
     }
 }

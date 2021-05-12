@@ -32,6 +32,8 @@ namespace Atendimentos
                     options.UseSqlServer(Configuration.GetConnectionString("AtendimentosContext")));
 
             services.AddScoped<SistemaServico>();
+            services.AddScoped<RevendedorServico>();
+            services.AddScoped<UsuarioServico>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

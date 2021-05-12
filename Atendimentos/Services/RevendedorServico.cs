@@ -9,27 +9,27 @@ using System.Threading.Tasks;
 
 namespace Atendimentos.Services
 {
-    public class SistemaServico
+    public class RevendedorServico
     {
         private readonly AtendimentosContext _contexto;
 
-        public SistemaServico(AtendimentosContext contexto)
+        public RevendedorServico(AtendimentosContext contexto)
         {
             _contexto = contexto;
         }
 
-        public async Task<List<Sistema>> ListarTudosAsync()
+        public async Task<List<Revendedor>> ListarTudosAsync()
         {
-            var a = _contexto.Sistema.ToList();
-            return await _contexto.Sistema.ToListAsync();
+            var a = _contexto.Revendedor.ToList();
+            return await _contexto.Revendedor.ToListAsync();
         }
 
-        public async Task<Sistema> BuscaPorIdAsync(int id)
+        public async Task<Revendedor> BuscaPorIdAsync(int id)
         {
-            return await _contexto.Sistema.FirstOrDefaultAsync(obj => obj.Id == id);
+            return await _contexto.Revendedor.FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
-        public async Task IncluirAsync(Sistema obj)
+        public async Task IncluirAsync(Revendedor obj)
         {
             _contexto.Add(obj);
             await _contexto.SaveChangesAsync();
@@ -39,8 +39,8 @@ namespace Atendimentos.Services
         {
             try
             {
-                var obj = await _contexto.Sistema.FindAsync(id);
-                _contexto.Sistema.Remove(obj);
+                var obj = await _contexto.Revendedor.FindAsync(id);
+                _contexto.Revendedor.Remove(obj);
                 await _contexto.SaveChangesAsync();
             }
             catch (DbUpdateException e)
@@ -49,16 +49,16 @@ namespace Atendimentos.Services
             }
         }
 
-        public async Task EditarAsync(Sistema obj)//tratar exceções 
+        public async Task EditarAsync(Revendedor obj)//tratar exceções 
         {
-            bool hasAny = await _contexto.Sistema.AnyAsync(x => x.Id == obj.Id);
+            bool hasAny = await _contexto.Revendedor.AnyAsync(x => x.Id == obj.Id);
             if (!hasAny)
             {
                 throw new NotFoundException("Id não encontrado");
             }
             try
             {
-                _contexto.Sistema.Update(obj);
+                _contexto.Revendedor.Update(obj);
                 await _contexto.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException e)
@@ -70,3 +70,4 @@ namespace Atendimentos.Services
 
     }
 }
+

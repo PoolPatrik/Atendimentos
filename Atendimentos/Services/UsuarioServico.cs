@@ -9,27 +9,27 @@ using System.Threading.Tasks;
 
 namespace Atendimentos.Services
 {
-    public class SistemaServico
+    public class UsuarioServico
     {
         private readonly AtendimentosContext _contexto;
 
-        public SistemaServico(AtendimentosContext contexto)
+        public UsuarioServico(AtendimentosContext contexto)
         {
             _contexto = contexto;
         }
 
-        public async Task<List<Sistema>> ListarTudosAsync()
+        public async Task<List<Usuario>> ListarTudosAsync()
         {
-            var a = _contexto.Sistema.ToList();
-            return await _contexto.Sistema.ToListAsync();
+            var a = _contexto.Usuario.ToList();
+            return await _contexto.Usuario.ToListAsync();
         }
 
-        public async Task<Sistema> BuscaPorIdAsync(int id)
+        public async Task<Usuario> BuscaPorIdAsync(int id)
         {
-            return await _contexto.Sistema.FirstOrDefaultAsync(obj => obj.Id == id);
+            return await _contexto.Usuario.FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
-        public async Task IncluirAsync(Sistema obj)
+        public async Task IncluirAsync(Usuario obj)
         {
             _contexto.Add(obj);
             await _contexto.SaveChangesAsync();
@@ -39,8 +39,8 @@ namespace Atendimentos.Services
         {
             try
             {
-                var obj = await _contexto.Sistema.FindAsync(id);
-                _contexto.Sistema.Remove(obj);
+                var obj = await _contexto.Usuario.FindAsync(id);
+                _contexto.Usuario.Remove(obj);
                 await _contexto.SaveChangesAsync();
             }
             catch (DbUpdateException e)
@@ -49,16 +49,16 @@ namespace Atendimentos.Services
             }
         }
 
-        public async Task EditarAsync(Sistema obj)//tratar exceções 
+        public async Task EditarAsync(Usuario obj)//tratar exceções 
         {
-            bool hasAny = await _contexto.Sistema.AnyAsync(x => x.Id == obj.Id);
+            bool hasAny = await _contexto.Usuario.AnyAsync(x => x.Id == obj.Id);
             if (!hasAny)
             {
                 throw new NotFoundException("Id não encontrado");
             }
             try
             {
-                _contexto.Sistema.Update(obj);
+                _contexto.Usuario.Update(obj);
                 await _contexto.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException e)
@@ -70,3 +70,4 @@ namespace Atendimentos.Services
 
     }
 }
+
