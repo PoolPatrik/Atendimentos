@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 
 namespace Atendimentos.Controllers
 {
-    public class RevendedorController : Controller
+    public class UsuariosController : Controller
     {
-        private readonly RevendedorServico _revendedorServico;
+        private readonly UsuarioServico _usuarioServico;
 
-        public RevendedorController(RevendedorServico revendedorServico)
+        public UsuariosController(UsuarioServico usuarioServico)
         {
-            _revendedorServico = revendedorServico;
+            _usuarioServico = usuarioServico;
         }
         public async Task<IActionResult> IndexAsync()
         {
-            var list = await _revendedorServico.ListarTudosAsync();
+            var list = await _usuarioServico.ListarTudosAsync();
             return View(list);
         }
 
@@ -32,13 +32,13 @@ namespace Atendimentos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Incluir(Revendedor revendedor)
+        public async Task<IActionResult> Incluir(Usuario usuario)
         {
             if (!ModelState.IsValid)
             {
-                return View(revendedor);
+                return View(usuario);
             }
-            await _revendedorServico.IncluirAsync(revendedor);
+            await _usuarioServico.IncluirAsync(usuario);
             return RedirectToAction(nameof(Index));
         }
 
@@ -48,7 +48,7 @@ namespace Atendimentos.Controllers
         {
             try
             {
-                await _revendedorServico.ApagarAsync(id);
+                await _usuarioServico.ApagarAsync(id);
                 return RedirectToAction(nameof(Index));
             }
             catch (IntegrityException e)
@@ -62,7 +62,7 @@ namespace Atendimentos.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message = "Objeto não encontrado" });
             }
-            var obj = await _revendedorServico.BuscaPorIdAsync(id.Value);
+            var obj = await _usuarioServico.BuscaPorIdAsync(id.Value);
 
             if (obj == null)
             {
@@ -79,7 +79,7 @@ namespace Atendimentos.Controllers
                 return RedirectToAction(nameof(Error), new { message = "Mensagem personalizada" });
             }
 
-            var obj = await _revendedorServico.BuscaPorIdAsync(id.Value);
+            var obj = await _usuarioServico.BuscaPorIdAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Mensagem personalizada" });
@@ -89,20 +89,20 @@ namespace Atendimentos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar(int id, Revendedor revendedor)
+        public async Task<IActionResult> Editar(int id, Usuario usuario)
         {
             if (!ModelState.IsValid)
             {
-                return View(revendedor);
+                return View(usuario);
             }
 
-            if (id != revendedor.Id)
+            if (id != usuario.Id)
             {
 
                 return RedirectToAction(nameof(Error), new { message = "Mensagem personalizada BadRequest" });
             }
 
-            await _revendedorServico.EditarAsync(revendedor);
+            await _usuarioServico.EditarAsync(usuario);
             return RedirectToAction(nameof(Index));
         }
 

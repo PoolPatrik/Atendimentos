@@ -15,13 +15,18 @@ namespace Atendimentos.Models
         public DateTime HoraFim { get; set; }
         public string Ticket{ get; set; }
         public Usuario Usuario { get; set; }
+        public int UsuarioId { get; set; }
         public Revendedor Revendedor { get; set; }
+        public int RevendedorId { get; set; }
         public Sistema Sistema { get; set; }
+        public int SistemaId { get; set; }
+        public ICollection<Comentario> Comentarios { get; set; } = new List<Comentario>();
 
         public Atendimento()
         {
 
         }
+
         public Atendimento(string descrição, string solucao, DateTime data, DateTime horaInicio, DateTime horaFim, string ticket, Usuario usuario, Revendedor revendedor, Sistema sistema)
         {
             Descrição = descrição;
@@ -35,6 +40,9 @@ namespace Atendimentos.Models
             Sistema = sistema;
         }
 
-
+        public void AddComentario(Comentario comentario)
+        {
+            Comentarios.Add(comentario);
+        }
     }
 }

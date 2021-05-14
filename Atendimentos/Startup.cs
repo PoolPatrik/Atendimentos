@@ -34,6 +34,7 @@ namespace Atendimentos
             services.AddScoped<SistemaServico>();
             services.AddScoped<RevendedorServico>();
             services.AddScoped<UsuarioServico>();
+            services.AddScoped<AtendimentoServico>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
