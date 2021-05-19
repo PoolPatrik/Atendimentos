@@ -12,6 +12,8 @@
     <div class="col-md-4">
         <form asp-action="Editar">
             <input type="hidden" asp-for="Atendimento.Id" />
+            <input type="hidden" asp-for="Atendimento.Data" />
+            <input type="hidden" asp-for="Atendimento.HoraInicio" />
             <div class="form-group">
                 <label asp-for="Atendimento.Revendedor" class="form-control-label"></label>
                 <Select asp-for="Atendimento.RevendedorId" asp-items="@(new SelectList(Model.Revendedores,"Id", "Nome"))" class="form-control"></Select>
@@ -24,8 +26,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Atendimento.Usuario" class="form-control-label"></label>
-                <Select asp-for="Atendimento.UsuarioId" asp-items="@(new SelectList(Model.Usuarios,"Id", "Nome"))" class="form-control"></select>
+                <Select asp-for="Atendimento.UsuarioId" asp-items="@(new SelectList(Model.Usuarios,"Id", "Nome"))" class="form-control"></Select>
                 <span asp-validation-for="Atendimento.Usuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Atendimento.Status" class="form-control-label"></label>
+                <select asp-for="Atendimento.Status" asp-items="Html.GetEnumSelectList<Atendimentos.Models.Enums.AtendimentoStatus>()" class="form-control"></select>
+                <span asp-validation-for="Atendimento.Status" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Atendimento.Descrição" class="form-control-label"></label>
@@ -39,7 +46,9 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-secondary" />
+                <input type="submit" name="answer" value="Save" class="btn btn-secondary" />
+                <input type="submit" name="answer" value="Finalizar" class="btn btn-secondary" />
+
             </div>
         </form>
     </div>

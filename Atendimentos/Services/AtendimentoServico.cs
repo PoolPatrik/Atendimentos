@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Atendimentos.Models.Enums;
 
 namespace Atendimentos.Services
 {
@@ -21,7 +22,7 @@ namespace Atendimentos.Services
         public async Task<List<Atendimento>> ListarTudosAsync()
         {
             //return await _contexto.Atendimento.ToListAsync();
-            return await _contexto.Atendimento.Include(obj => obj.Revendedor).Include(obj => obj.Sistema).ToListAsync();
+            return await _contexto.Atendimento.Where(obj => obj.Status == AtendimentoStatus.Iniciado || obj.Status == AtendimentoStatus.Aberto).Include(obj => obj.Revendedor).Include(obj => obj.Sistema).ToListAsync();
         }
 
         public async Task<Atendimento> BuscaPorIdAsync(int id)
@@ -31,6 +32,9 @@ namespace Atendimentos.Services
 
         public async Task IncluirAsync(Atendimento obj)
         {
+            obj.Data = DateTime.Now;
+            obj.HoraInicio = DateTime.Now;
+
             _contexto.Add(obj);
             await _contexto.SaveChangesAsync();
         }
@@ -49,8 +53,13 @@ namespace Atendimentos.Services
             }
         }
 
-        public async Task EditarAsync(Atendimento obj)//tratar exceções 
+        public async Task EditarAsync(Atendimento obj, bool finalizar)//tratar exceções 
         {
+            if(finalizar)
+            {
+                obj.Status = AtendimentoStatus.Finalizado;
+                obj.HoraFim = DateTime.Now;
+            }
             bool hasAny = await _contexto.Atendimento.AnyAsync(x => x.Id == obj.Id);
             if (!hasAny)
             {

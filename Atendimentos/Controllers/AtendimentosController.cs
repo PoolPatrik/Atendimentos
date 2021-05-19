@@ -51,7 +51,7 @@ namespace Atendimentos.Controllers
                 var revendedores = await _revendedorServico.ListarTudosAsync();
                 var usuarios = await _usuarioServico.ListarTudosAsync();
 
-                var viewModel = new AtendimentoViewModel {Atendimento = atendimento, Sistemas = sistemas, Revendedores = revendedores, Usuarios = usuarios };
+                var viewModel = new AtendimentoViewModel { Atendimento = atendimento, Sistemas = sistemas, Revendedores = revendedores, Usuarios = usuarios };
                 return View(viewModel);
             }
             await _atendimentoServico.IncluirAsync(atendimento);
@@ -112,16 +112,28 @@ namespace Atendimentos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar(int id, Atendimento atendimento)
+        public async Task<IActionResult> Editar(int id, Atendimento atendimento, string answer)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid && !String.IsNullOrWhiteSpace(answer))
             {
                 var sistemas = await _sistemaServico.ListarTudosAsync();
                 var revendedores = await _revendedorServico.ListarTudosAsync();
                 var usuarios = await _usuarioServico.ListarTudosAsync();
-
                 var viewModel = new AtendimentoViewModel { Atendimento = atendimento, Sistemas = sistemas, Revendedores = revendedores, Usuarios = usuarios };
-                return View(viewModel);
+
+                switch (answer)
+                {
+                    case "Save":
+                        await _atendimentoServico.EditarAsync(atendimento, false);
+                        break;
+
+                    case "Finalizar":
+                        await _atendimentoServico.EditarAsync(atendimento, true);
+                        break;
+                }
+
+                return RedirectToAction(nameof(Index));
+               // return View(viewModel);
             }
 
             if (id != atendimento.Id)
@@ -130,7 +142,6 @@ namespace Atendimentos.Controllers
                 return RedirectToAction(nameof(Error), new { message = "Mensagem personalizada BadRequest" });
             }
 
-            await _atendimentoServico.EditarAsync(atendimento);
             return RedirectToAction(nameof(Index));
         }
 
